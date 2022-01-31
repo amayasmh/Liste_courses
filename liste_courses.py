@@ -1,5 +1,8 @@
 #liste de courses
 
+import os
+import json
+
 
 #fonction pour afficher le menu
 def affichemenu():
@@ -44,7 +47,15 @@ def affiche_liste(liste):
 
 #le programme principal
 
-liste_courses = []
+cur_dir = os.path.dirname(__file__)
+liste_path = os.path.join(cur_dir,"liste.json")
+
+if os.path.exists(liste_path):
+    with open(liste_path, "r") as f:
+        liste_courses = json.load(f)
+else:
+    liste_courses = []
+
 while True:
      
     print("____________________________________________________________________\n")
@@ -54,7 +65,7 @@ while True:
     nombre = input("=> Votre choix : ")
     if not nombre.isdigit():
         continue
-    
+
     nombre = int(nombre)
     if nombre == 1:
         elem = input("Entrez le nom d'un élément à ajouter à la liste de courses : ")
@@ -73,6 +84,8 @@ while True:
             print("Votre liste est vide.")
     elif nombre == 5:
         print("A bientot !")
+        with open(liste_path, "w") as f:
+            json.dump(liste_courses,f,indent=4)
         break
 
         
